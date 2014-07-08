@@ -16,6 +16,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *composeView;
 @property (weak, nonatomic) IBOutlet UIScrollView *contentView;
+- (IBAction)onNevermindButton:(id)sender;
 
 @property (weak, nonatomic) IBOutlet UIButton *homeButton;
 @property (weak, nonatomic) IBOutlet UIButton *searchButton;
@@ -35,6 +36,8 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *exploreImageView;
 - (void)bounceExplore;
+- (void)hideCompose;
+- (void)showCompose;
 
 @end
 
@@ -54,10 +57,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-
-    self.composeView.center = CGPointMake(self.composeView.center.x, self.composeView.center.y+568);
-    self.composeView.alpha = 0;
     
+    self.composeView.center = CGPointMake(self.composeView.center.x, 852);
+    self.composeView.alpha = 0;
     self.homeVc = [[HomeViewController alloc] init];
     
     self.searchVc = [[SearchViewController alloc] init];
@@ -149,9 +151,6 @@
 
 }
 
-- (IBAction)onComposeButton:(id)sender {
-}
-
 - (void)bounceExplore {
     CGPoint origin = self.exploreImageView.center;
     CGPoint target = CGPointMake(self.exploreImageView.center.x, self.exploreImageView.center.y-20);
@@ -164,4 +163,29 @@
     [self.exploreImageView.layer addAnimation:bounce forKey:@"position"];
 }
 
+- (void)showCompose {
+    self.composeView.center = CGPointMake(self.composeView.center.x, 284);
+    
+    [UIView animateWithDuration:.2 animations:^{
+        self.composeView.alpha = 1;
+    }];
+
+}
+
+- (void)hideCompose {
+    
+    [UIView animateWithDuration:.2 animations:^{
+        self.composeView.alpha = 0;
+    } completion:^(BOOL finished) {
+        self.composeView.center = CGPointMake(self.composeView.center.x, 852);
+    }];
+}
+
+- (IBAction)onComposeButton:(id)sender {
+    [self showCompose];
+}
+
+- (IBAction)onNevermindButton:(id)sender {
+    [self hideCompose];
+}
 @end

@@ -11,7 +11,11 @@
 
 @interface HomeViewController ()
 - (IBAction)onLogin:(id)sender;
+- (IBAction)onCancelButton:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 
+@property (weak, nonatomic) IBOutlet UIView *loginView;
 @end
 
 @implementation HomeViewController
@@ -29,6 +33,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.loginView.alpha=0;
+    self.loginView.center = CGPointMake(self.loginView.center.x, 852);
+    [self.loginButton addTarget:self action:@selector(onCancelButton:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)didReceiveMemoryWarning
@@ -38,7 +45,24 @@
 }
 
 - (IBAction)onLogin:(id)sender {
-//    UIView *loginVc = [[LoginViewController alloc] init];
-//    [self.view addSubview:loginVc];
+    self.loginView.center = CGPointMake(self.loginView.center.x, 284);
+    
+    [UIView animateWithDuration:.2 animations:^{
+        self.loginView.alpha = 1;
+    } completion:^(BOOL finished) {
+        [self.emailTextField becomeFirstResponder];
+    }];
+
+}
+
+- (IBAction)onCancelButton:(id)sender {
+    
+    [UIView animateWithDuration:.2 animations:^{
+        self.loginView.alpha = 0;
+    } completion:^(BOOL finished) {
+        self.loginView.center = CGPointMake(self.loginView.center.x, 852);
+        [self.view endEditing:YES];
+    }];
+
 }
 @end
